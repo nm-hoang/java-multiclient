@@ -37,8 +37,9 @@ public class Client_Server {
     public void Initialize() throws IOException{
        
         
-        while(true){
             System.out.println("Client");
+        while(true){
+            ReceiveMessage();
             text = stdin.readLine();
             
             if(text.equalsIgnoreCase("EXIT")){
@@ -53,10 +54,11 @@ public class Client_Server {
     }
     
     public void SendMessage(String message){
-        send.println(text);
+        System.out.println("Sending: "+message);
+        send.println(message);
     }
     public void ReceiveMessage() throws IOException{
         text = receive.readLine();
-         System.out.println("Server:" + text +"\n");
+        System.out.println("Server:" + text +"\n");
     }
 }

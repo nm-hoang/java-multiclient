@@ -64,7 +64,8 @@ public class ClientFrame extends javax.swing.JFrame {
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
         // TODO add your handling code here:
-        System.out.println("send");
+   
+        client_server.SendMessage("Send text");
     }//GEN-LAST:event_btnSendActionPerformed
 
     /**

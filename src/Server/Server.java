@@ -72,9 +72,11 @@ public class Server {
         @Override
         public void run() {
             int x = 1;
+            SendMessage("Send from server");
             while(true){
                 try {
                     ReceiveMessage();
+                    
                 } catch (IOException ex) {
                     Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -87,7 +89,8 @@ public class Server {
         }
         
         public void SendMessage(String message){
-            
+            System.out.println("Sending: " + message);
+            send.println(message);
         }
         
     }    
