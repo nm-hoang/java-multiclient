@@ -40,16 +40,16 @@ public class Client_Server {
             System.out.println("Client");
         while(true){
             ReceiveMessage();
-            text = stdin.readLine();
-            
-            if(text.equalsIgnoreCase("EXIT")){
-                break;
-            }
+//            text = stdin.readLine();
+//            
+//            if(text.equalsIgnoreCase("EXIT")){
+//                break;
+//            }
         }
-        socket.close();
-        receive.close();
-        send.close();
-        stdin.close();
+//        socket.close();
+//        receive.close();
+//        send.close();
+//        stdin.close();
         
     }
     
