@@ -14,6 +14,8 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -70,20 +72,23 @@ public class Server {
         @Override
         public void run() {
             int x = 1;
-            try{
-                while(true){
-                    text = receive.readLine();
-                    System.out.println("Client"+id +": " + text + "\n");
-                    
-                    
+            while(true){
+                try {
+                    ReceiveMessage();
+                } catch (IOException ex) {
+                    Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }   
-            catch(IOException ex){
-                System.out.println(ex);
             }
+        }   
+        
+        public void ReceiveMessage() throws IOException{
+            text = receive.readLine();
+           System.out.println("Client"+id +": " + text + "\n");
         }
         
-       
+        public void SendMessage(String message){
+            
+        }
         
     }    
 }

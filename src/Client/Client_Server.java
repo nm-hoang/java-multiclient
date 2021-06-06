@@ -10,35 +10,53 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author H
  */
 public class Client_Server {
+    public Socket socket;
+    public BufferedReader receive;
+    public PrintStream send;
+    public BufferedReader stdin=new BufferedReader(new InputStreamReader(System.in));
+    public String text;
+
+    public Client_Server() {
+        try {
+            this.socket = new Socket("127.0.0.1", 5000);
+            this.receive = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.send = new PrintStream(socket.getOutputStream());
+        } catch (IOException ex) {
+            Logger.getLogger(Client_Server.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void Initialize() throws IOException{
-        Socket socket = new Socket("127.0.0.1", 5000);
-        BufferedReader receive=new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        PrintStream send =new PrintStream(socket.getOutputStream());
-        BufferedReader stdin=new BufferedReader(new InputStreamReader(System.in));
-        String text;
+       
         
         while(true){
             System.out.println("Client");
             text = stdin.readLine();
-            send.println(text);
+            
             if(text.equalsIgnoreCase("EXIT")){
                 break;
             }
-            
-            text = receive.readLine();
-            System.out.println("Server:" + text +"\n");
-            
         }
         socket.close();
         receive.close();
         send.close();
         stdin.close();
         
+    }
+    
+    public void SendMessage(String message){
+        send.println(text);
+    }
+    public void ReceiveMessage() throws IOException{
+        text = receive.readLine();
+         System.out.println("Server:" + text +"\n");
     }
 }
