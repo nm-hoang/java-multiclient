@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,8 +23,11 @@ public class Client_Server {
     public BufferedReader receive;
     public PrintStream send;
     public BufferedReader stdin=new BufferedReader(new InputStreamReader(System.in));
-    public String text;
-
+    public static String text;
+    public static ArrayList<String[]> listClient;
+    public static String IPAddress;
+    public static int port;
+    
     public Client_Server() {
         try {
             this.socket = new Socket("127.0.0.1", 5000);
@@ -37,7 +41,9 @@ public class Client_Server {
     public void Initialize() throws IOException{
        
         
-            System.out.println("Client");
+        System.out.println("Client");
+        IPAddress = this.GetIPAddress();
+        port = this.GetPort();
         while(true){
             ReceiveMessage();
 //            text = stdin.readLine();
@@ -57,8 +63,43 @@ public class Client_Server {
         System.out.println("Sending: " + message);
         send.println(message);
     }
+    
     public void ReceiveMessage() throws IOException{
         text = receive.readLine();
         System.out.println("Server:" + text +"\n");
+        listClient = new ArrayList<String[]>();
+        //listclient:127.0.0.1-5000;
+        if(text.contains("listclient")){
+            System.out.println("list client");
+            String[] message = text.split(":");
+            String[] lc = message[1].split(";");
+            for(String s : lc){
+                  if(s.length()>0){
+                    String[] client = s.split("-");
+                    listClient.add(client);
+                    System.out.println(client);
+                      System.out.println(listClient.size());
+                  }
+            }
+        }
     }
+    
+    public void GetInfo(){
+        System.out.println(socket.getInetAddress());
+        System.out.println(socket.getPort());
+        System.out.println(socket.toString());
+        System.out.println(socket.getLocalPort());
+    }
+    
+    public String GetIPAddress(){
+        return(socket.getInetAddress().toString().replace("/", ""));
+    }
+    
+    public int GetPort(){
+        return socket.getLocalPort();
+    }
+    
+   
+  
+    
 }

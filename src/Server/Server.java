@@ -47,16 +47,17 @@ public class Server {
             clientcount++;
            runnable = new Server_Client(client,clientcount,this);
             listClient.add(runnable);
+           SendListClient();
            pool.execute(runnable);
            
        }
     }
     public void SendListClient(){
         System.out.println("test");
-        String sts = "";
+        String sts = "listclient:";
         for(Server_Client sc : listClient){
             DetailClient dc = new DetailClient(sc.client);
-               sts = sts.concat(dc.getIPAddress()+ ":" + dc.getPort()+";");
+               sts = sts.concat(dc.getIPAddress()+ "-" + dc.getPort()+";");
         }
         System.out.println(sts);
         runnable.SendMessage(sts); 
