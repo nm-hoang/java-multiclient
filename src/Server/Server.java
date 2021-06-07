@@ -31,6 +31,8 @@ public class Server {
     public static ArrayList<DetailClient> clients;
     public Server_Client runnable;
     
+    
+    
     Server(int port){
         this.port = port;
         pool = Executors.newFixedThreadPool(5);
@@ -68,50 +70,5 @@ public class Server {
     }   
    
     
-    public static class Server_Client implements Runnable {
-
-        Server server = null;
-        Socket client = null;
-        BufferedReader receive;
-        public static PrintStream send;
-        Scanner scanner = new Scanner(System.in);
-        int id;
-        String text;
-        
-        Server_Client(Socket client, int count, Server server) throws IOException{
-            this.client = client;
-            this.server = server;
-            this.id = count;
-            System.out.println("ID: " + id + "Client: "+ client);
-            receive =new BufferedReader(new InputStreamReader(client.getInputStream()));
-            send = new PrintStream(client.getOutputStream());
-        }
-        
-        @Override
-        public void run() {
-            int x = 1;
-            SendMessage("Send from server");
-            while(true){
-                try {
-                    ReceiveMessage();
-                    
-                } catch (IOException ex) {
-                    Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }   
-        
-        public void ReceiveMessage() throws IOException{
-            text = receive.readLine();
-           System.out.println("Client"+id +": " + text + "\n");
-        }
-        
-        public static void SendMessage(String message){
-            System.out.println("Sending: " + message);
-            send.println(message);
-        }
-        
-     
-        
-    }    
+   
 }
