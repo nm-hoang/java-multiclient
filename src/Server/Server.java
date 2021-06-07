@@ -5,18 +5,12 @@
  */
 package Server;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -28,9 +22,8 @@ public class Server {
     Socket client = null;
     ExecutorService pool = null;
     int clientcount=0;
-    public static ArrayList<DetailClient> clients;
     public Server_Client runnable;
-    
+    public static ArrayList<Server_Client> listClient;
     
     
     Server(int port){
@@ -44,31 +37,34 @@ public class Server {
     }
     public void StartConnection() throws IOException{
         server = new ServerSocket(5000);
-        clients = new ArrayList<DetailClient>();
+        listClient = new ArrayList<Server_Client>();
         System.out.println("Server setup");
         System.out.println("Client can stop by typing exit");
         
         while(true){
-           client = server.accept();
+            client = server.accept();
 //          add new client that connected to list
-            DetailClient cl = new DetailClient(client);
-            
-            clients.add(cl);
-            System.out.println(clients.size());
+            clientcount++;
            runnable = new Server_Client(client,clientcount,this);
+            listClient.add(runnable);
            pool.execute(runnable);
            
        }
     }
     public void SendListClient(){
+        System.out.println("test");
         String sts = "";
-        for(int i=0; i<clients.size(); i++){
-            System.out.println(clients.get(i).getIPAddress());
-            sts = sts.concat(clients.get(i).getIPAddress()+ ":" + clients.get(i).getPort()+";");
+        for(Server_Client sc : listClient){
+            DetailClient dc = new DetailClient(sc.client);
+               sts = sts.concat(dc.getIPAddress()+ ":" + dc.getPort()+";");
         }
-        runnable.SendMessage(sts);
+        System.out.println(sts);
+        runnable.SendMessage(sts); 
     }   
-   
     
-   
+//    public void SendMessageToAll() {
+//       for(Server_Client sc : listClient){
+//           sc.SendMessage("send multi");   
+//       }
+//    }
 }

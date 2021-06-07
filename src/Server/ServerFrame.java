@@ -94,7 +94,8 @@ public class ServerFrame extends javax.swing.JFrame {
 
     private void btnSendingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendingActionPerformed
         // TODO add your handling code here:
-        server.runnable.SendMessage("Sending test");
+//        server.runnable.SendMessage("Sending test");
+        server.SendListClient();
     }//GEN-LAST:event_btnSendingActionPerformed
 
     /**

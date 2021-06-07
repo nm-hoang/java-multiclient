@@ -54,7 +54,7 @@ public class Client_Server {
     }
     
     public void SendMessage(String message){
-        System.out.println("Sending: "+message);
+        System.out.println("Sending: " + message);
         send.println(message);
     }
     public void ReceiveMessage() throws IOException{

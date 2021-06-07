@@ -27,7 +27,8 @@ import java.util.logging.Logger;
        Scanner scanner = new Scanner(System.in);
        int id;
        String text;
-
+       
+       
        Server_Client(Socket client, int count, Server server) throws IOException{
            this.client = client;
            this.server = server;
@@ -60,7 +61,4 @@ import java.util.logging.Logger;
            System.out.println("Sending: " + message);
            send.println(message);
        }
-
-
-
    }    

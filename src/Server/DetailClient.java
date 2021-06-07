@@ -39,4 +39,9 @@ public class DetailClient {
         this.port = port;
     }
     
+    public void Printdetail(){
+        System.out.println("IP:" + this.IPAddress);
+        System.out.println("POrt: " + this.port);
+    }
+    
 }
