@@ -53,7 +53,6 @@ public class Server {
        }
     }
     public void SendListClient(){
-        System.out.println("test");
         String sts = "listclient:";
         for(Server_Client sc : listClient){
             DetailClient dc = new DetailClient(sc.client);

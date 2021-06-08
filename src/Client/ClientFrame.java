@@ -7,6 +7,8 @@ package Client;
 
 import Server.DetailClient;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -22,7 +24,7 @@ public class ClientFrame extends javax.swing.JFrame {
      */
     DefaultTableModel tableModel;
     private static Client_Server client_server = new Client_Server();
-    
+    private static Client_Client client_client = new Client_Client();
     public ClientFrame() {
         initComponents();
         tableModel = (DefaultTableModel) tableListClient.getModel();
@@ -31,7 +33,6 @@ public class ClientFrame extends javax.swing.JFrame {
     public void GetListClient(){
         ShowIPAndPort();
         tableModel.setRowCount(0);
-        System.out.println(client_server.listClient.size());
         for(int i=0; i<client_server.listClient.size();i++){
             String[] cl = client_server.listClient.get(i);
             tableModel.addRow(new Object[] {
@@ -181,7 +182,7 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
 
-        btnGetList1.setText("Get List Client");
+        btnGetList1.setText("Join");
         btnGetList1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGetList1ActionPerformed(evt);
@@ -282,8 +283,12 @@ public class ClientFrame extends javax.swing.JFrame {
 
     private void btnConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnectActionPerformed
         // TODO add your handling code here:
-   
-        Client_Client cl_cl = new Client_Client();
+        System.out.println("reach connected button");
+        client_client = new Client_Client();
+        String IPPartner = txtIPConnect.getText();
+        int port = Integer.parseInt(txtPortConnect.getText());
+        System.out.println("partner"+IPPartner+":"+port);
+        client_client.Connect(IPPartner, port);
     }//GEN-LAST:event_btnConnectActionPerformed
 
     private void txtIPConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIPConnectActionPerformed
@@ -297,6 +302,10 @@ public class ClientFrame extends javax.swing.JFrame {
     private void btnGetList1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetList1ActionPerformed
         // TODO add your handling code here:
         this.GetListClient();
+//        client_client.Initialize();
+        ExecutorService pool = Executors.newFixedThreadPool(5);
+        pool.execute(client_client);
+        
     }//GEN-LAST:event_btnGetList1ActionPerformed
 
     private void txtIPConnect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIPConnect1ActionPerformed
@@ -305,6 +314,9 @@ public class ClientFrame extends javax.swing.JFrame {
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
         // TODO add your handling code here:
+        System.out.println("Sending client button");
+        client_client.Send();
+        
     }//GEN-LAST:event_btnSendActionPerformed
 
     private void btnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestActionPerformed
@@ -347,7 +359,7 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         client_server.Initialize();
-        
+        System.out.println("test thread");
         
         
     }

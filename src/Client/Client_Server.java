@@ -41,7 +41,6 @@ public class Client_Server {
     public void Initialize() throws IOException{
        
         
-        System.out.println("Client");
         IPAddress = this.GetIPAddress();
         port = this.GetPort();
         while(true){
@@ -60,7 +59,6 @@ public class Client_Server {
     }
     
     public void SendMessage(String message){
-        System.out.println("Sending: " + message);
         send.println(message);
     }
     
@@ -70,15 +68,12 @@ public class Client_Server {
         listClient = new ArrayList<String[]>();
         //listclient:127.0.0.1-5000;
         if(text.contains("listclient")){
-            System.out.println("list client");
             String[] message = text.split(":");
             String[] lc = message[1].split(";");
             for(String s : lc){
                   if(s.length()>0){
                     String[] client = s.split("-");
                     listClient.add(client);
-                    System.out.println(client);
-                      System.out.println(listClient.size());
                   }
             }
         }
